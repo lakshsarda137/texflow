@@ -1,0 +1,15 @@
+{
+  "workflows": [
+    {
+      "name": "Class year",
+      "template": "\\rsDate{{{value}} (Expected Graduation)}",
+      "fileName": "resume.pdf",
+      "restore": true,
+      "verify": true,
+      "variants": [
+        { "value": "May 2028", "folder": "~/Desktop/Applications/Junior" },
+        { "value": "May 2029", "folder": "~/Desktop/Applications" }
+      ]
+    }
+  ]
+}
