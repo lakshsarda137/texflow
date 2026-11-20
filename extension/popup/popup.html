@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>texflow</title>
+  <link rel="stylesheet" href="../ui/styles.css" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="row">
+    <img src="../icons/icon32.png" width="20" height="20" alt="" />
+    <h1 class="grow">texflow</h1>
+    <span id="host-pill" class="pill">Helper…</span>
+  </header>
+
+  <div id="host-help" class="notice bad hidden">
+    The texflow helper isn't installed, so PDFs can't be saved to your folders.
+    In Terminal, run <code>native-host/install.sh</code> from the texflow folder, then reload the extension.
+  </div>
+
+  <div id="tab-line" class="notice small">Checking this tab…</div>
+
+  <section id="run" class="hidden">
+    <div class="row">
+      <h2 id="run-title" class="grow ellipsis"></h2>
+      <button id="run-dismiss" class="link small hidden">Dismiss</button>
+    </div>
+    <ol id="run-steps"></ol>
+    <div id="run-restore" class="small muted"></div>
+    <div id="run-message" class="notice small"></div>
+  </section>
+
+  <section>
+    <div class="row section-head">
+      <h2 class="grow">Workflows</h2>
+      <button id="new" class="link">+ New workflow</button>
+    </div>
+    <ul id="list"></ul>
+    <div id="empty" class="notice hidden">
+      No workflows yet. A workflow says which text changes in your .tex file and where the PDF for each value goes.
+    </div>
+  </section>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

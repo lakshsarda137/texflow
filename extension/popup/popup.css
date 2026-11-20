@@ -1,0 +1,20 @@
+body { width: 380px; padding: 12px; display: grid; gap: 10px; }
+header { gap: 8px; }
+section { display: grid; gap: 8px; }
+.section-head { margin-top: 2px; }
+ul, ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+
+.wf {
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px;
+  display: grid; gap: 4px;
+}
+.wf .name { font-weight: 600; }
+.wf .template { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.wf .targets { font-size: 11px; color: var(--muted); display: grid; gap: 1px; }
+.wf .targets b { color: var(--ink); font-weight: 500; }
+
+#run { border: 1px solid var(--line); border-radius: 8px; padding: 10px; background: var(--bg-soft); }
+#run-steps li { display: flex; gap: 6px; align-items: baseline; font-size: 12px; }
+#run-steps .value { font-weight: 600; white-space: nowrap; }
+#run-steps .detail { color: var(--muted); }
+#run-steps .path { font-family: var(--mono); font-size: 11px; color: var(--muted); word-break: break-all; }
