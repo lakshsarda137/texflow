@@ -1,0 +1,14 @@
+# Personal workflows (paths, names) stay on this machine only
+extension/local-workflows.json
+
+# Assistant / editor config — never published
+CLAUDE.md
+.claude/
+AGENTS.md
+
+# OS / tooling
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
+*.pem
