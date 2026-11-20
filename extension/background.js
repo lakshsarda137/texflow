@@ -242,6 +242,7 @@ const handlers = {
     await overleafTab(tabId);
     // Fire and forget: progress is published to chrome.storage.session.
     run(tabId, workflowId).catch(async (e) => {
+      if (activeRun) return; // another run owns the progress panel
       await setRun({ workflowId, status: 'error', message: e.message, steps: [], restore: 'off', startedAt: Date.now(), finishedAt: Date.now() });
     });
     return { started: true };
