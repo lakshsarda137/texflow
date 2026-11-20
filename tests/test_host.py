@@ -78,6 +78,24 @@ class HostTests(unittest.TestCase):
         self.assertEqual(host.read_message(buf), {"id": 7, "type": "ping"})
         self.assertIsNone(host.read_message(io.BytesIO(struct.pack("<I", 10) + b"{}")))
 
+    def test_choose_folder_returns_tilde_path(self):
+        picked = os.path.join(self.home, "Desktop", "Junior") + "/"
+        calls = []
+
+        def fake_run(args, **kw):
+            calls.append(args)
+            return type("P", (), {"returncode": 0, "stdout": picked + "\n", "stderr": ""})()
+
+        out = host.choose_folder("~/Desktop", home=self.home, run=fake_run)
+        self.assertEqual(out, {"path": "~/Desktop/Junior"})
+        self.assertIn("default location", calls[0][-1])
+
+    def test_choose_folder_cancel(self):
+        def fake_run(args, **kw):
+            return type("P", (), {"returncode": 1, "stdout": "", "stderr": "execution error: User canceled. (-128)"})()
+
+        self.assertEqual(host.choose_folder(None, home=self.home, run=fake_run), {"cancelled": True})
+
     def test_handle_unknown_type(self):
         with self.assertRaises(host.HostError):
             host.handle({"type": "rm -rf"}, home=self.home)

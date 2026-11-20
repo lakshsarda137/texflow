@@ -226,6 +226,10 @@ const handlers = {
     return native({ type: 'checkDir', path });
   },
 
+  async chooseFolder({ start }) {
+    return native({ type: 'chooseFolder', start });
+  },
+
   async run({ tabId, workflowId }) {
     if (activeRun) throw new Error('A run is already in progress.');
     // Fire and forget: progress is published to chrome.storage.session.

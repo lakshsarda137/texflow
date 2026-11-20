@@ -18,6 +18,7 @@ import base64
 import json
 import os
 import struct
+import subprocess
 import sys
 import tempfile
 
@@ -99,12 +100,46 @@ def save_pdf(path, data_b64, overwrite=True, home=None):
     return {"path": target, "bytes": len(data)}
 
 
+def _applescript_string(s):
+    return '"' + s.replace("\\", "\\\\").replace('"', '\\"') + '"'
+
+
+def choose_folder(start=None, home=None, run=subprocess.run):
+    """Show the macOS folder picker. Returns {"path": "~/..."} or {"cancelled": True}."""
+    home = os.path.realpath(home or os.path.expanduser("~"))
+    script = ["tell me to activate"]
+    prompt = "Choose where texflow should save this PDF"
+    location = ""
+    if start:
+        try:
+            resolved = resolve_path(start, home)
+            if os.path.isdir(resolved):
+                location = f" default location (POSIX file {_applescript_string(resolved)})"
+        except HostError:
+            pass
+    script.append(f"POSIX path of (choose folder with prompt {_applescript_string(prompt)}{location})")
+    args = ["osascript"]
+    for line in script:
+        args += ["-e", line]
+    proc = run(args, capture_output=True, text=True, timeout=600)
+    if proc.returncode != 0:
+        if "-128" in proc.stderr or "canceled" in proc.stderr.lower():
+            return {"cancelled": True}
+        raise HostError(f"Folder picker failed: {proc.stderr.strip()}")
+    path = os.path.realpath(proc.stdout.strip())
+    if os.path.commonpath([path, home]) == home:
+        path = "~" + path[len(home):]
+    return {"path": path}
+
+
 def handle(msg, home=None):
     kind = msg.get("type")
     if kind == "ping":
         return {"version": VERSION, "home": os.path.expanduser("~")}
     if kind == "checkDir":
         return check_dir(msg.get("path"), home)
+    if kind == "chooseFolder":
+        return choose_folder(msg.get("start"), home)
     if kind == "save":
         return save_pdf(msg.get("path"), msg.get("data"), msg.get("overwrite", True), home)
     raise HostError(f"Unknown request type: {kind!r}")
