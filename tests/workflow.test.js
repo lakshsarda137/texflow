@@ -95,6 +95,7 @@ test('locate does not span lines', () => {
 
 test('plan runs the current value first, then others, then restores', () => {
   const plan = planRun(wf(), DOC);
+  assert.equal(DOC.slice(plan.index, plan.index + plan.original.length), plan.original);
   assert.deepEqual(plan.steps.map((s) => s.value), ['May 2029', 'May 2028']);
   assert.equal(plan.steps[0].edit, null);
   assert.equal(plan.steps[0].path, '~/Desktop/Apps/resume.pdf');

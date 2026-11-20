@@ -150,7 +150,7 @@ export function planRun(wf, text) {
       ? { from: match.index, to: match.index + current.length, expected: current, insert: original }
       : null;
 
-  return { line: match.line, currentValue: match.value, original, steps, restore };
+  return { index: match.index, line: match.line, currentValue: match.value, original, steps, restore };
 }
 
 /** Collapse a LaTeX-ish value into the text a PDF viewer would show. */

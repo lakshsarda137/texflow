@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "texflow",
+  "version": "1.0.0",
+  "description": "Compile variants of an Overleaf document and save each PDF to its own folder.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnH9CukvIrgB+qJP64fAGHegYqfIJSBj0PkbyL7+woaiVxJ/B+izyZY/box7q1pI//7O1dybvtIAT4+FOYnQQSiYWoMvloal6Vh3e0sF/7eNCrRodJZaPsyffrCVm9ANfcb8MhLDRolIdRoBYyC4ZpuDquXfegGNU/tNARPbJGaO3BLxnZ2MGo7XgS/yOjFB4zUngvle1sivofwVplbNqY7KAB04tSFvSOjVQ3ooaR0LqdE0/4g7k8UrAqSaL5RRJjkhfbGnW06dHZE2wZW4vgrUwyfbIPu4vkrb1cbKARSpe5w7d1fw/lwKEXqQB31/LiCte1a0Bg4K5xvmuxj2jSwIDAQAB",
+  "minimum_chrome_version": "116",
+  "permissions": ["storage", "scripting", "nativeMessaging", "notifications", "activeTab"],
+  "host_permissions": ["https://www.overleaf.com/*", "https://overleaf.com/*"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "texflow",
+    "default_icon": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png" }
+  },
+  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" }
+}
