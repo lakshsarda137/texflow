@@ -104,10 +104,17 @@ function notify(title, message) {
 
 async function run(tabId, workflowId) {
   if (activeRun) throw new Error('A run is already in progress.');
-  const wf = (await getWorkflows()).find((w) => w.id === workflowId);
-  if (!wf) throw new Error('Workflow not found.');
-  const problems = validateWorkflow(wf);
-  if (problems.length) throw new Error(problems[0]);
+  activeRun = { status: 'starting' }; // claim synchronously so a double-click can't start two runs
+  let wf;
+  try {
+    wf = (await getWorkflows()).find((w) => w.id === workflowId);
+    if (!wf) throw new Error('Workflow not found.');
+    const problems = validateWorkflow(wf);
+    if (problems.length) throw new Error(problems[0]);
+  } catch (e) {
+    activeRun = null;
+    throw e;
+  }
 
   const state = {
     workflowId, workflowName: wf.name, tabId, status: 'running', message: 'Starting…',
@@ -232,6 +239,7 @@ const handlers = {
 
   async run({ tabId, workflowId }) {
     if (activeRun) throw new Error('A run is already in progress.');
+    await overleafTab(tabId);
     // Fire and forget: progress is published to chrome.storage.session.
     run(tabId, workflowId).catch(async (e) => {
       await setRun({ workflowId, status: 'error', message: e.message, steps: [], restore: 'off', startedAt: Date.now(), finishedAt: Date.now() });
