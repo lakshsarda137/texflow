@@ -1,0 +1,11 @@
+{
+  "name": "texflow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Chrome extension: compile Overleaf variants and save each PDF to its own folder",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test tests/*.test.js && python3 -m unittest discover -s tests -p 'test_*.py'"
+  }
+}
